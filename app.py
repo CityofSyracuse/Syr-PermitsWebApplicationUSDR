@@ -1,5 +1,8 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+
+import pyodbc
+
 app = Flask(__name__)
 
 
@@ -17,13 +20,15 @@ def favicon():
 def hello():
    name = request.form.get('name')
 
+   # _conn = pyodbc.connect("Server=tcp:syn-syr-dev-001.sql.azuresynapse.net,1433;Initial Catalog=synsyrpooldev;Persist Security Info=False;User ID='268fe733-439e-49e3-99f3-ad71ef5dbe44';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication='Active Directory Integrated';")
+
+
    if name:
        print('Request for hello page received with name=%s' % name)
        return render_template('hello.html', name = name)
    else:
        print('Request for hello page received with no name or blank name -- redirecting')
        return redirect(url_for('index'))
-
 
 if __name__ == '__main__':
    app.run()

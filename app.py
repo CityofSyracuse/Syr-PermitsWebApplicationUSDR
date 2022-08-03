@@ -8,6 +8,7 @@ from flask import (
     send_from_directory,
 )
 import os
+import pyodbc
 
 app = Flask(__name__, static_url_path="", static_folder="build")
 

@@ -14,7 +14,7 @@ function App() {
                     <input className='p-2' placeholder='Example: 5-digit project number or project address'></input>
                     <button className='ml-auto' >Search</button>
                 </div>
-                <a href='#'>Can't find the project number?</a>
+                <button>Can't find the project number?</button>
                 <div className='d-flex justify-content-center pt-5'>
                     <p>Need help? Contact city staff</p>
                 </div>

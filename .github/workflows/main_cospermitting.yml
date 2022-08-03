@@ -49,6 +49,7 @@ jobs:
           path: |
             . 
             !venv/
+            !node_modules/
 
   deploy:
     runs-on: ubuntu-latest

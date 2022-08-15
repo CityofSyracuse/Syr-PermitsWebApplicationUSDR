@@ -3,7 +3,7 @@ from flask import (
     send_from_directory,
     abort,
 )
-from flask_cors import CORS
+# from flask_cors import CORS
 
 app = Flask(__name__, static_url_path="", static_folder="build")
 # CORS(app)  # TODO: do not do this in production

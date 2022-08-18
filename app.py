@@ -3,11 +3,16 @@ from flask import (
     send_from_directory,
     abort,
 )
-# from flask_cors import CORS
+import os
 
 app = Flask(__name__, static_url_path="", static_folder="build")
-# CORS(app)  # TODO: do not do this in production
-# app.config["CORS_HEADERS"] = "Content-Type"
+
+DEV_ENV = os.getenv('SYR_DEV_ENV')
+if DEV_ENV == 'dev':
+    from flask_cors import CORS
+
+    CORS(app)
+    app.config["CORS_HEADERS"] = "Content-Type"
 
 
 @app.route("/api/permit/<id>")

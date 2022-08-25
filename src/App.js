@@ -23,7 +23,7 @@ function App() {
 
 function OtherPermitSearch() {
     const chatBubble = "/img/bubble.svg";
-    const magGlass = "/img/mag-glass.svg";
+    // const magGlass = "/img/mag-glass.svg";
 
     const [value, setValue] = useState("");
     let navigate = useNavigate();
@@ -36,7 +36,8 @@ function OtherPermitSearch() {
                     value={value} onChange={(e) => setValue(e.target.value)}
                 />
                 <button onClick={(e) => navigate(`/status/${value}`)} className="btn btn-outline-secondary" type="button" id="button-addon2">
-                    <img className='px-2' src={magGlass} height={20} alt="logo" />Search
+                    {/* <img className='px-2' src={magGlass} height={20} alt="logo" /> */}
+                    Search
                 </button>
             </div>
             <p>Can’t find the project number? Please check the confirmation email or contact the city Staff.</p>
@@ -161,6 +162,7 @@ function DepartmentInfo() {
 
 function Header() {
     const logo = "/img/syracuse-logo.png";
+    const personIcon = "/img/person-icon.svg";
 
     return (
         <Navbar expand="lg" variant="dark" className='px-3 text-white' style={{ backgroundColor: '#1d2754' }}>
@@ -170,6 +172,7 @@ function Header() {
             </Link>
             <Nav className="ml-auto">
                 <div className="d-flex">
+                    <img className='px-2' src={personIcon} height={20} alt="logo" />
                     Sign In
                 </div>
             </Nav>

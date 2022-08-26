@@ -11,7 +11,7 @@ function App() {
         <Router>
             <Header />
             <Routes>
-                <Route path="/" exact element={<OtherPermitSearch />} />
+                <Route path="/" element={<OtherPermitSearch />} />
                 <Route path="/status/:permitNumber" element={<PermitInfo />} />
                 <Route path="/status/:permitNumber/department/:departmentId" element={<DepartmentInfo />} />
             </Routes>

@@ -4,8 +4,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, useParams, Link } from "react-router-dom";
 
-const url = "http://127.0.0.1:5000"; // LOCAL URL
-// const url = "https://cospermitting.azurewebsites.net"; // PROD URL
+// const url = "http://127.0.0.1:5000"; // LOCAL URL
+const url = "https://cospermitting.azurewebsites.net"; // PROD URL
 
 
 function App() {

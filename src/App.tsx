@@ -1,10 +1,34 @@
 import './App.css';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, useParams, Link } from "react-router-dom";
+import { Key } from 'react';
 
 const url = process.env.REACT_APP_SYR_DEV_ENV === "dev" ? "http://127.0.0.1:5000" : "https://cospermitting.azurewebsites.net";
+
+interface IPermitInfo {
+    number: string,
+    submitted_by: string,
+    permit_type: string,
+    address: string,
+    description: string,
+    department_statuses: IDepartmentStatus[]
+}
+
+interface IDepartmentStatus {
+    id: string,
+    department: string,
+    status: string,
+    last_updated: string,
+}
+
+interface IDepartmentInfo {
+    title: string,
+    reviewer: string,
+    last_updated: string,
+    notes: string[]
+}
 
 function App() {
     return (
@@ -23,7 +47,7 @@ function OtherPermitSearch() {
     const chatBubble = "/img/bubble.svg";
     const magGlass = "/img/mag-glass.svg";
 
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState<string>();
     let navigate = useNavigate();
     return (
         <div className='container'>
@@ -38,7 +62,7 @@ function OtherPermitSearch() {
                     Search
                 </button>
             </div>
-            <p>Can’t find the project number? Please check the confirmation email or contact the city Staff.</p>
+            <p>Can't find the project number? Please check the confirmation email or contact the city Staff.</p>
             <div className='d-flex justify-content-center pt-3'>
                 <img className='px-2 pt-1' src={chatBubble} height={20} alt="logo" />
                 <p>Need help? Contact city staff</p>
@@ -50,7 +74,7 @@ function OtherPermitSearch() {
 function PermitInfo() {
     let params = useParams();
     console.log(params.permitNumber);
-    const [permitInfo, setPermitInfo] = useState(null);
+    const [permitInfo, setPermitInfo] = useState<IPermitInfo>();
     console.log(permitInfo);
 
     useEffect(() => {
@@ -92,7 +116,7 @@ function PermitInfo() {
 
                 <h3>Department status</h3>
                 {permitInfo.department_statuses.map(departmentStatus =>
-                    <DepartmentTile key={departmentStatus.id} departmentStatus={departmentStatus} />
+                    <DepartmentTile key={departmentStatus.id as Key} departmentStatus={departmentStatus} />
                 )}
             </div>
             :
@@ -100,18 +124,18 @@ function PermitInfo() {
     );
 }
 
-function DepartmentTile({ departmentStatus }) {
+function DepartmentTile(props: { departmentStatus: IDepartmentStatus }) {
     let navigate = useNavigate();
 
     return (
-        <div style={{ cursor: 'pointer' }} className='border p-3 rounded m-2' onClick={() => navigate(`department/${departmentStatus.id}`)}>
+        <div style={{ cursor: 'pointer' }} className='border p-3 rounded m-2' onClick={() => navigate(`department/${props.departmentStatus.id}`)}>
             <div className='d-flex justify-content-between'>
-                <div>{departmentStatus.department}</div>
+                <div>{props.departmentStatus.department}</div>
                 <div>Last updated</div>
             </div>
             <div className='d-flex justify-content-between'>
-                <div>{departmentStatus.status}</div>
-                <div>{departmentStatus.last_updated}</div>
+                <div>{props.departmentStatus.status}</div>
+                <div>{props.departmentStatus.last_updated}</div>
             </div>
         </div>
     )
@@ -119,7 +143,7 @@ function DepartmentTile({ departmentStatus }) {
 
 function DepartmentInfo() {
     let params = useParams();
-    const [departmentInfo, setDepartmentInfo] = useState(null);
+    const [departmentInfo, setDepartmentInfo] = useState<IDepartmentInfo>();
 
     useEffect(() => {
         fetch(`${url}/api/permit/${params.permitNumber}/department-status/${params.departmentId}`)

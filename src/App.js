@@ -4,9 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, useParams, Link } from "react-router-dom";
 
-// const url = "http://127.0.0.1:5000"; // LOCAL URL
-const url = "https://cospermitting.azurewebsites.net"; // PROD URL
-
+const url = process.env.REACT_APP_SYR_DEV_ENV === "dev" ? "http://127.0.0.1:5000" : "https://cospermitting.azurewebsites.net";
 
 function App() {
     return (
@@ -23,7 +21,7 @@ function App() {
 
 function OtherPermitSearch() {
     const chatBubble = "/img/bubble.svg";
-    // const magGlass = "/img/mag-glass.svg";
+    const magGlass = "/img/mag-glass.svg";
 
     const [value, setValue] = useState("");
     let navigate = useNavigate();
@@ -35,8 +33,8 @@ function OtherPermitSearch() {
                 <input type="text" className="form-control" placeholder="Enter 5-digit project number" aria-label="Recipient's username" aria-describedby="button-addon2"
                     value={value} onChange={(e) => setValue(e.target.value)}
                 />
-                <button onClick={(e) => navigate(`/status/${value}`)} className="btn btn-outline-secondary" type="button" id="button-addon2">
-                    {/* <img className='px-2' src={magGlass} height={20} alt="logo" /> */}
+                <button style={{ backgroundColor: '#1d2754', color: 'white' }} onClick={(e) => navigate(`/status/${value}`)} className="btn btn-outline-secondary" type="button" id="button-addon2">
+                    <img className='px-2' src={magGlass} height={20} alt="logo" />
                     Search
                 </button>
             </div>
@@ -69,21 +67,21 @@ function PermitInfo() {
             <div className='container'>
                 <h2 className='border-bottom pt-5 pb-3'>Your permit is <span style={{ color: 'orange' }}>{calculateOverallStatus()}</span></h2>
                 <p>The estimated approval time for this permit is <strong>MM/DD/YYYY</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call xxx-xxx-xxxx.</p>
-                <table className='table table-striped'>
+                <table className='table'>
                     <tbody>
                         <tr>
                             <td>Permit number</td>
                             <td>{permitInfo.number}</td>
                         </tr>
-                        <tr>
-                            <td>submitted by</td>
+                        <tr className='table-warning'>
+                            <td>Submitted by</td>
                             <td>{permitInfo.submitted_by}</td>
                         </tr>
                         <tr>
                             <td>Permit type</td>
                             <td>{permitInfo.permit_type}</td>
                         </tr>
-                        <tr>
+                        <tr className='table-warning'>
                             <td>Address / Area</td>
                             <td>{permitInfo.address}</td>
                         </tr>
@@ -164,7 +162,7 @@ function Header() {
     const personIcon = "/img/person-icon.svg";
 
     return (
-        <Navbar expand="lg" variant="dark" className='px-3 text-white' style={{ backgroundColor: '#1d2754' }}>
+        <Navbar expand="false" variant="dark" className='p-4 text-white' style={{ backgroundColor: '#1d2754' }}>
             <Link to="/" className='mx-2' style={{ textDecoration: 'none', color: 'white' }}>
                 <img className='px-2' src={logo} height={30} alt="logo" />
                 Track Permit Status

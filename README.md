@@ -1,5 +1,12 @@
 # Syr-PermitsWebApplicationUSDR
  Codebase for the USDR / Syracuse Digital Alliance Permits Web Application
+
+ To run locally:
+ * install requirements in requirements.txt
+ * run `npm install`
+ * set enviroment variable REACT_APP_SYR_DEV_ENV to dev
+ * run flask app: `python app.py`
+ * run frontend: `npm start`
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

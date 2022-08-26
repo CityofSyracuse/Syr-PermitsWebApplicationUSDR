@@ -7,8 +7,8 @@ import os
 
 app = Flask(__name__, static_url_path="", static_folder="build")
 
-DEV_ENV = os.getenv('SYR_DEV_ENV')
-if DEV_ENV == 'dev':
+DEV_ENV = os.getenv("REACT_APP_SYR_DEV_ENV")
+if DEV_ENV == "dev":
     from flask_cors import CORS
 
     CORS(app)

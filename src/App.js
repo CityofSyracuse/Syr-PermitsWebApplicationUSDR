@@ -153,7 +153,6 @@ function DepartmentInfo() {
                     <li key={i}>{info}</li>
                 )}
             </ul>
-
         </div>
         :
         <div>loading</div>

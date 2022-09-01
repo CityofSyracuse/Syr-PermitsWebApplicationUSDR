@@ -21,8 +21,8 @@ def create_db_connection():
     password = os.getenv("sql_user_password")
 
     connection_string = (
-        "DRIVER={ODBC Driver 17 for SQL Server}"
-        "Server=tcp:syn-syr-dev-001.sql.azuresynapse.net,1433;"
+        "DRIVER={ODBC Driver 17 for SQL Server};"
+        "SERVER=tcp:syn-syr-dev-001.sql.azuresynapse.net,1433;"
         "DATABASE=synsyrpooldev;"
         f"UID={username};"
         f"PWD={password};"

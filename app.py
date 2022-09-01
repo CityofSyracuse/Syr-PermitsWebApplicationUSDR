@@ -34,7 +34,11 @@ def create_db_connection():
     return pyodbc.connect(connection_string)
 
 
-db_connection = create_db_connection()
+try:
+    db_connection = create_db_connection()
+except Exception as e:
+    print("failed to connect to database: " + str(e))
+    db_connection = None
 
 
 @app.route("/api/permit/<id>")

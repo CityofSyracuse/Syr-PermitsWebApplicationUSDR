@@ -45,9 +45,7 @@ except Exception as e:
 def get_permit_info(id):
 
     permit_info_query = (
-        "SELECT permit_application_id, application_number, application_date, description_of_work, permit_type_name, "
-        "status_type_name, user_note, Permit_Type_IPS, SLA_Time_Days, sla_days_td, sla_projected_completion_date "
-        "FROM permit_with_sla_lookup WHERE application_number = ?"
+        "SELECT * FROM permit_with_sla_lookup WHERE application_number = ?"
     )
 
     with db_connection.cursor() as cursor:

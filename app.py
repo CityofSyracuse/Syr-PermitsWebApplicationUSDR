@@ -18,7 +18,7 @@ if DEV_ENV == "dev":
 
 def create_db_connection():
     username = os.getenv("sql_user")
-    password = os.getenv("sql_user_password")
+    password = os.getenv("sql_user_pwd")
 
     connection_string = (
         "DRIVER={ODBC Driver 17 for SQL Server};"

@@ -4,6 +4,7 @@ from flask import (
     abort,
 )
 import os
+import pyodbc
 
 app = Flask(__name__, static_url_path="", static_folder="build")
 
@@ -15,56 +16,44 @@ if DEV_ENV == "dev":
     app.config["CORS_HEADERS"] = "Content-Type"
 
 
+def create_db_connection():
+    username = os.getenv("sql_user")
+    password = os.getenv("sql_user_password")
+
+    connection_string = (
+        "DRIVER={ODBC Driver 17 for SQL Server}"
+        "Server=tcp:syn-syr-dev-001.sql.azuresynapse.net,1433;"
+        "DATABASE=synsyrpooldev;"
+        f"UID={username};"
+        f"PWD={password};"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
+        "Connection Timeout=30;"
+    )
+
+    return pyodbc.connect(connection_string)
+
+
+db_connection = create_db_connection()
+
+
 @app.route("/api/permit/<id>")
 def get_permit_info(id):
-    if id != "43215":
-        abort(404)
 
-    return {
-        "number": "43215",
-        "submitted_by": "John Doe LLC",
-        "permit_type": "Comm. New Building",
-        "address": "123 Mulberry Terracem, Syracuse, New York 13202",
-        "description": "Lally Athletic Complex. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti.",
-        "department_statuses": [
-            {
-                "id": 1,
-                "department": "Fire prevention",
-                "status": "On hold",
-                "last_updated": "July 20th, 2022",
-            },
-            {
-                "id": 2,
-                "department": "Engineering - D",
-                "status": "On hold",
-                "last_updated": "July 14th, 2022",
-            },
-            {
-                "id": 3,
-                "department": "Water engineer",
-                "status": "Pending",
-                "last_updated": "March 1st, 2022",
-            },
-            {
-                "id": 4,
-                "department": "Engineering - S",
-                "status": "Pending",
-                "last_updated": "Feb 10th, 2022",
-            },
-            {
-                "id": 5,
-                "department": "Zoning planner",
-                "status": "Conditionally approved",
-                "last_updated": "Jan 5th, 2022",
-            },
-            {
-                "id": 6,
-                "department": "Zoning planner",
-                "status": "Conditionally approved",
-                "last_updated": "Aug 8th, 2021",
-            },
-        ],
-    }
+    permit_info_query = (
+        "SELECT permit_application_id, application_number, application_date, description_of_work, permit_type_name, "
+        "status_type_name, user_note, Permit_Type_IPS, SLA_Time_Days, sla_days_td, sla_projected_completion_date "
+        "FROM permit_with_sla_lookup WHERE application_number = ?"
+    )
+
+    with db_connection.cursor() as cursor:
+        cursor.execute(permit_info_query, id)
+        result = cursor.fetchone()
+        if result is None:
+            abort(404)
+
+        columns = [column[0] for column in cursor.description]
+        return dict(zip(columns, result))
 
 
 @app.route("/api/permit/<id>/department-status/<department_id>")

@@ -45,17 +45,19 @@ except Exception as e:
 def get_permit_info(id):
 
     permit_info_query = (
-        "SELECT * FROM permit_with_sla_lookup WHERE application_number = ?"
+        "SELECT * FROM permit_with_sla_lookup LEFT JOIN approval_approvals ON ",
+        "permit_with_sla_lookup.permit_application_id = approval_approvals.record_id "
+        "WHERE permit_with_sla_lookup.application_number = ?",
     )
 
     with db_connection.cursor() as cursor:
         cursor.execute(permit_info_query, id)
-        result = cursor.fetchone()
-        if result is None:
+        result = cursor.fetchall()
+        if len(result) == 0:
             abort(404)
 
         columns = [column[0] for column in cursor.description]
-        return dict(zip(columns, result))
+        return [dict(zip(columns, row)) for row in result]
 
 
 @app.route("/api/permit/<id>/department-status/<department_id>")

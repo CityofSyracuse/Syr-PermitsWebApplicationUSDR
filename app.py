@@ -1,10 +1,7 @@
-from flask import (
-    Flask,
-    send_from_directory,
-    abort,
-)
+from flask import Flask, send_from_directory, abort, Response
 import os
 import pyodbc
+import json
 
 app = Flask(__name__, static_url_path="", static_folder="build")
 
@@ -57,7 +54,8 @@ def get_permit_info(id):
             abort(404)
 
         columns = [column[0] for column in cursor.description]
-        return [dict(zip(columns, row)) for row in result]
+        data = [dict(zip(columns, row)) for row in result]
+        return Response(json.dumps(data), mimetype="application/json")
 
 
 @app.route("/api/permit/<id>/department-status/<department_id>")

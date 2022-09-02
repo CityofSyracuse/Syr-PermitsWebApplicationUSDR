@@ -45,9 +45,9 @@ except Exception as e:
 def get_permit_info(id):
 
     permit_info_query = (
-        "SELECT * FROM permit_with_sla_lookup LEFT JOIN approval_approvals ON ",
+        "SELECT * FROM permit_with_sla_lookup LEFT JOIN approval_approvals ON "
         "permit_with_sla_lookup.permit_application_id = approval_approvals.record_id "
-        "WHERE permit_with_sla_lookup.application_number = ?",
+        "WHERE permit_with_sla_lookup.application_number = ?"
     )
 
     with db_connection.cursor() as cursor:

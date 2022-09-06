@@ -11,6 +11,7 @@ interface IPermitInfo {
     number: string,
     submitted_by: string,
     permit_type: string,
+    permit_status: string,
     address: string,
     description: string,
     department_statuses: IDepartmentStatus[]
@@ -84,12 +85,12 @@ function PermitInfo() {
             .catch(() => console.log("not found"));
     }, [params.permitNumber]);
 
-    const calculateOverallStatus = () => "pending";
-
     return (
         permitInfo ?
             <div className='container'>
-                <h2 className='border-bottom pt-5 pb-3'>Your permit is <span style={{ color: 'orange' }}>{calculateOverallStatus()}</span></h2>
+                <h2 className='border-bottom pt-5 pb-3'>
+                    Your permit is <span style={{ color: 'orange' }}>{permitInfo.permit_status}</span>
+                </h2>
                 <p>The estimated approval time for this permit is <strong>MM/DD/YYYY</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call xxx-xxx-xxxx.</p>
                 <table className='table'>
                     <tbody>

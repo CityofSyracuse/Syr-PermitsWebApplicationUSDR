@@ -53,9 +53,33 @@ def get_permit_info(id):
         if len(result) == 0:
             abort(404)
 
-        columns = [column[0] for column in cursor.description]
-        data = [dict(zip(columns, row)) for row in result]
-        return Response(json.dumps(data), mimetype="application/json")
+        data = {}
+        first_row = result[0]
+
+        data["number"] = first_row.application_number
+        data["submitted_by"] = ""
+        data["permit_type"] = first_row.permit_type_name
+        data["permit_status"] = first_row.status_type_name
+        data["address"] = ""
+        data["description"] = first_row.description_of_work
+        data["application_date"] = first_row.application_date
+        data["sla_time_days"] = first_row.SLA_Time_Days
+        data["n_approvers"] = first_row.N_Approvers
+        data["sla_projected_completion_date"] = first_row.sla_projected_completion_date
+
+        department_statuses = []
+        for row in result:
+            department = {}
+            department["id"] = row.record_id
+            department["department"] = row.groupusers_name
+            department["status"] = row.approval_status_types_name
+            department["last_updated"] = row.date_last_changed
+            department["is_active"] = row.is_active
+            department_statuses.append(department)
+
+        data["department_statuses"] = department_statuses
+
+        return data
 
 
 @app.route("/api/permit/<id>/department-status/<department_id>")

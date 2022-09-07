@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, abort
+from flask import Flask, send_from_directory, abort, render_template
 import os
 import pyodbc
 
@@ -97,6 +97,17 @@ def get_department_status(id, department_id):
             "If revised plans are required, they must be submitted back to the Central Permit Office for redistribution. Do not submit revised plans directly to reviewing departments.",
         ],
     }
+
+
+@app.route("/list")
+def index():
+    permit_number_query = "SELECT application_number FROM permit_with_sla_lookup"
+
+    with db_connection.cursor() as cursor:
+        cursor.execute(permit_number_query)
+        result = cursor.fetchall()
+
+        return render_template("list.html", nums=result)
 
 
 @app.route("/", defaults={"path": ""})

@@ -1,0 +1,18 @@
+<html>
+
+<head>
+    <title>Syracuse Permits</title>
+</head>
+
+<body>
+    <h1>Available Permits</h1>
+    <ul>
+        {% for num in nums %}
+        <li>
+            <a href="https://cospermitting.azurewebsites.net/status/{{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

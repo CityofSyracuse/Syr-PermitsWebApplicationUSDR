@@ -107,7 +107,7 @@ def index():
         cursor.execute(permit_number_query)
         result = cursor.fetchall()
 
-        return render_template("list.html", nums=result)
+        return render_template("list.html", nums=[id[0] for id in result])
 
 
 @app.route("/", defaults={"path": ""})

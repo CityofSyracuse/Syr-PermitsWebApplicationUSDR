@@ -172,12 +172,13 @@ function DepartmentTile(props: { departmentStatus: IDepartmentStatus }) {
 function DepartmentInfo() {
     const params = useParams();
     const [departmentInfo, setDepartmentInfo] = useState<IDepartmentInfo>();
+    const [notFound, setNotFound] = useState(false);
 
     useEffect(() => {
         fetch(`${url}/api/permit/${params.permitNumber}/department-status/${params.departmentId}`)
             .then(res => res.json())
             .then(r => setDepartmentInfo(r))
-            .catch(() => console.log("not found"));
+            .catch(() => setNotFound(true));
     }, [params.permitNumber, params.departmentId]);
 
     console.log(departmentInfo);
@@ -205,7 +206,9 @@ function DepartmentInfo() {
             </ul>
         </div>
         :
-        <div>loading</div>
+        <div className='container text-center pt-4'>
+            {notFound ? "not found" : "loading"}
+        </div>
     );
 }
 

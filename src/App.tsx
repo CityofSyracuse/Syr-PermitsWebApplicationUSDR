@@ -14,6 +14,7 @@ interface IPermitInfo {
     permit_status: string,
     address: string,
     description: string,
+    sla_projected_completion_date: string,
     department_statuses: IDepartmentStatus[]
 }
 
@@ -49,7 +50,7 @@ function OtherPermitSearch() {
     const magGlass = "/img/mag-glass.svg";
 
     const [value, setValue] = useState<string>();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     return (
         <div className='container'>
             <h2 className='border-bottom pt-5 pb-3 mb-5'>Track permit status</h2>
@@ -73,25 +74,26 @@ function OtherPermitSearch() {
 }
 
 function PermitInfo() {
-    let params = useParams();
+    const params = useParams();
     console.log(params.permitNumber);
     const [permitInfo, setPermitInfo] = useState<IPermitInfo>();
+    const [notFound, setNotFound] = useState(false);
     console.log(permitInfo);
 
     useEffect(() => {
         fetch(`${url}/api/permit/${params.permitNumber}`)
             .then(res => res.json())
             .then(r => setPermitInfo(r))
-            .catch(() => console.log("not found"));
+            .catch(() => setNotFound(true));
     }, [params.permitNumber]);
 
     return (
         permitInfo ?
             <div className='container'>
-                <h2 className='border-bottom pt-5 pb-3'>
+                <h2 className='border-bottom pt-4 pb-3'>
                     Your permit is <span style={{ color: 'orange' }}>{permitInfo.permit_status}</span>
                 </h2>
-                <p>The estimated approval time for this permit is <strong>MM/DD/YYYY</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call xxx-xxx-xxxx.</p>
+                <p>The estimated approval time for this permit is <strong>{permitInfo.sla_projected_completion_date}</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call xxx-xxx-xxxx.</p>
                 <table className='table'>
                     <tbody>
                         <tr>
@@ -121,29 +123,54 @@ function PermitInfo() {
                 )}
             </div>
             :
-            <div>loading</div>
+            <div className='container text-center pt-4'>
+                {notFound ? "not found" : "loading"}
+            </div>
     );
 }
 
 function DepartmentTile(props: { departmentStatus: IDepartmentStatus }) {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const rightArrow = "/img/right-arrow.svg"
+
+    const generateStatusIcon = () => {
+        const status = props.departmentStatus.status;
+        if (status === "Pending") {
+            return "/img/pending-time.svg";
+        } else if (status === "Conditionally approved") {
+            return "/img/green-check.svg";
+        }
+        return "/img/red-bang.svg";
+    }
+
 
     return (
-        <div style={{ cursor: 'pointer' }} className='border p-3 rounded m-2' onClick={() => navigate(`department/${props.departmentStatus.id}`)}>
+        <div style={{ cursor: 'pointer', maxWidth: '500px' }} className='border p-3 rounded m-2 d-flex justify-content-between'
+            onClick={() => navigate(`department/${props.departmentStatus.id}`)}>
             <div className='d-flex justify-content-between'>
-                <div>{props.departmentStatus.department}</div>
-                <div>Last updated</div>
+                <div>
+                    <img className='px-2' src={generateStatusIcon()} height={15} alt="logo" />
+                </div>
+                <div>
+                    <div>{props.departmentStatus.department}</div>
+                    <div>Last updated</div>
+                </div>
             </div>
             <div className='d-flex justify-content-between'>
-                <div>{props.departmentStatus.status}</div>
-                <div>{props.departmentStatus.last_updated}</div>
+                <div>
+                    <div className='text-end'>{props.departmentStatus.status}</div>
+                    <div>{props.departmentStatus.last_updated}</div>
+                </div>
+                <div className='d-flex align-items-center px-2'>
+                    <img className='px-2' src={rightArrow} height={10} alt="logo" />
+                </div>
             </div>
         </div>
     )
 }
 
 function DepartmentInfo() {
-    let params = useParams();
+    const params = useParams();
     const [departmentInfo, setDepartmentInfo] = useState<IDepartmentInfo>();
 
     useEffect(() => {

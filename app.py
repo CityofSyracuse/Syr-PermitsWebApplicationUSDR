@@ -101,7 +101,7 @@ def get_department_status(id, department_id):
 
 @app.route("/list")
 def index():
-    permit_number_query = "SELECT application_number FROM permit_with_sla_lookup"
+    permit_number_query = "SELECT application_number FROM permit_with_sla_lookup ORDER BY application_number"
 
     with db_connection.cursor() as cursor:
         cursor.execute(permit_number_query)

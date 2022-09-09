@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, useParams, Link } from "react-router-dom";
 import { Key } from 'react';
 
-const url = process.env.REACT_APP_SYR_DEV_ENV === "dev" ? "http://127.0.0.1:5000" : "https://cospermitting.azurewebsites.net";
+const url = "https://cospermitting.azurewebsites.net";
 
 interface IPermitInfo {
     number: string,
@@ -137,7 +137,7 @@ function DepartmentTile(props: { departmentStatus: IDepartmentStatus }) {
         const status = props.departmentStatus.status;
         if (status === "Pending") {
             return "/img/pending-time.svg";
-        } else if (status === "Conditionally approved") {
+        } else if (status === "Conditionally Approved" || status === "Approved") {
             return "/img/green-check.svg";
         }
         return "/img/red-bang.svg";
@@ -159,7 +159,7 @@ function DepartmentTile(props: { departmentStatus: IDepartmentStatus }) {
             <div className='d-flex justify-content-between'>
                 <div>
                     <div className='text-end'>{props.departmentStatus.status}</div>
-                    <div>{props.departmentStatus.last_updated}</div>
+                    <div className='text-end'>{props.departmentStatus.last_updated}</div>
                 </div>
                 <div className='d-flex align-items-center px-2'>
                     <img className='px-2' src={rightArrow} height={10} alt="logo" />

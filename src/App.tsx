@@ -93,7 +93,7 @@ function PermitInfo() {
                 <h2 className='border-bottom pt-4 pb-3'>
                     Your permit is <span style={{ color: 'orange' }}>{permitInfo.permit_status}</span>
                 </h2>
-                <p>The estimated approval time for this permit is <strong>{permitInfo.sla_projected_completion_date}</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call xxx-xxx-xxxx.</p>
+                <p>The estimated approval time for this permit is <strong>{permitInfo.sla_projected_completion_date}</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call <a href="tel:3154488600">315-448-8600</a>.</p>
                 <table className='table'>
                     <tbody>
                         <tr>
@@ -223,10 +223,12 @@ function Header() {
                 Track Permit Status
             </Link>
             <Nav className="ml-auto">
-                <div className="d-flex">
-                    <img className='px-2' src={personIcon} height={20} alt="logo" />
-                    Sign In
-                </div>
+                <a href="https://app.oncamino.com/syracuseny/login" className='text-decoration-none text-reset'>
+                    <div className="d-flex">
+                        <img className='px-2' src={personIcon} height={20} alt="logo" />
+                        Sign In
+                    </div>
+                </a>
             </Nav>
         </Navbar>
     );

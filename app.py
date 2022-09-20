@@ -56,15 +56,25 @@ def get_permit_info(id):
         first_row = result[0]
 
         data["number"] = first_row.application_number
-        data["submitted_by"] = ""
+        data["submitted_by"] = first_row.first_name + " " + first_row.last_name
         data["permit_type"] = first_row.permit_type_name
         data["permit_status"] = first_row.status_type_name
-        data["address"] = ""
+        data["address"] = (
+            first_row.number
+            + " "
+            + first_row.address
+            + ", "
+            + first_row.city
+            + ", New York "
+            + first_row.zip
+        )
         data["description"] = first_row.description_of_work
         data["application_date"] = first_row.application_date
         data["sla_time_days"] = first_row.SLA_Time_Days
         data["n_approvers"] = first_row.N_Approvers
         data["sla_projected_completion_date"] = first_row.sla_projected_completion_date
+        data["assigned_to"] = first_row.assigned_to
+        data["permit_type_ips"] = first_row.Permit_Type_IPS
 
         department_statuses = []
         for row in result:
@@ -74,6 +84,7 @@ def get_permit_info(id):
             department["status"] = row.approval_status_types_name
             department["last_updated"] = row.date_last_changed
             department["is_active"] = row.is_active
+            department["comments"] = row.comments
             department_statuses.append(department)
 
         data["department_statuses"] = department_statuses

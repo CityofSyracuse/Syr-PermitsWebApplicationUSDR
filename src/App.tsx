@@ -199,7 +199,7 @@ function DepartmentInfo() {
 
     return (departmentInfo ?
         <div className='container'>
-            <h2 className='border-bottom pt-5 pb-3'>Plan is {departmentInfo.status} by {departmentInfo.department}</h2>
+            <h2 className='border-bottom pt-4 pb-3'>Plan is {departmentInfo.status} by {departmentInfo.department}</h2>
             <table className='table table-striped'>
                 <tbody>
                     <tr>
@@ -228,14 +228,14 @@ function Header() {
 
     return (
         <Navbar expand="false" variant="dark" className='p-4 text-white' style={{ backgroundColor: '#1d2754' }}>
-            <Link to="/" className='mx-2' style={{ textDecoration: 'none', color: 'white' }}>
-                <img className='px-2' src={logo} height={30} alt="logo" />
+            <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+                <img className='pe-2' src={logo} height={30} alt="logo" />
                 Track Permit Status
             </Link>
             <Nav className="ml-auto">
                 <a href="https://app.oncamino.com/syracuseny/login" className='text-decoration-none text-reset'>
                     <div className="d-flex">
-                        <img className='px-2' src={personIcon} height={20} alt="logo" />
+                        <img className='pe-2' src={personIcon} height={20} alt="logo" />
                         Sign In
                     </div>
                 </a>

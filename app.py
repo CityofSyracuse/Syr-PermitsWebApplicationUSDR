@@ -81,7 +81,7 @@ def get_permit_info(id):
         department_statuses = []
         for row in result:
             department = {}
-            department["id"] = row.record_id
+            department["id"] = row.approval_approvals_id
             department["department"] = row.groupusers_name
             department["status"] = row.approval_status_types_name
             department["last_updated"] = row.date_last_changed
@@ -96,20 +96,25 @@ def get_permit_info(id):
 
 @app.route("/api/permit/<id>/department-status/<department_id>")
 def get_department_status(id, department_id):
-    print(id, department_id)
-    if not (id == "43215" and department_id == "1"):
-        abort(404)
+    department_status_query = (
+        "SELECT * FROM approval_approvals WHERE approval_approvals_id = ?"
+    )
 
-    return {
-        "title": "Plan is on hold by the Fire Prevention Bureau",
-        "reviewer": "Mirza Malkoc",
-        "last_updated": "MMM/DD/YYYY",
-        "notes": [
-            "Completed review of FA floor plans, complete corrections reort - see attached - emailed to Mike Ripa at Davis Ulmer.  BFogarty",
-            "Above application cannot be approved. To learn more please contact the plan reviewer(s) above. Contact information can be found on the City's website: http://www.syracuse.ny.us/Pre-Development_Contacts.aspx.",
-            "If revised plans are required, they must be submitted back to the Central Permit Office for redistribution. Do not submit revised plans directly to reviewing departments.",
-        ],
-    }
+    with db_connection.cursor() as cursor:
+        cursor.execute(department_status_query, department_id)
+        result = cursor.fetchone()
+        if result is None:
+            abort(404)
+
+        data = {}
+        data["id"] = result.approval_approvals_id
+        data["data"] = result.groupusers_name
+        data["status"] = result.approval_status_types_name
+        data["last_updated"] = result.date_last_changed
+        data["is_active"] = result.is_active
+        data["comments"] = result.comments
+
+        return data
 
 
 @app.route("/list")

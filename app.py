@@ -80,6 +80,9 @@ def get_permit_info(id):
 
         department_statuses = []
         for row in result:
+            if row.approval_approvals_id is None:
+                continue
+
             department = {}
             department["id"] = row.approval_approvals_id
             department["department"] = row.groupusers_name

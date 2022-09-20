@@ -87,11 +87,24 @@ function PermitInfo() {
             .catch(() => setNotFound(true));
     }, [params.permitNumber]);
 
+    const getStatusColor = () => {
+        if (permitInfo === undefined) {
+            return "red";
+        }
+        const status = permitInfo.permit_status;
+        if (['Not Applicable', 'Voided', 'Application Expired', 'Withdrawn', 'Denied', 'Cancelled'].includes(status)) {
+            return "red";
+        } else if (['Active', 'Ready for Issue'].includes(status)) {
+            return "green";
+        }
+        return "orange";
+    };
+
     return (
         permitInfo ?
             <div className='container'>
                 <h2 className='border-bottom pt-4 pb-3'>
-                    Your permit is <span style={{ color: 'orange' }}>{permitInfo.permit_status}</span>
+                    Your permit is <span style={{ color: getStatusColor() }}>{permitInfo.permit_status}</span>
                 </h2>
                 <p>The estimated approval time for this permit is <strong>{permitInfo.sla_projected_completion_date}</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call <a href="tel:3154488600">315-448-8600</a>.</p>
                 <table className='table'>

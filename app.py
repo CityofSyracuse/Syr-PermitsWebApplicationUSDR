@@ -37,6 +37,14 @@ except Exception as e:
     db_connection = None
 
 
+def get_address(number, address, city, zip):
+    try:
+        return number + " " + address + ", " + city + ", New York " + zip
+    except Exception as e:
+        print("error parsing address: " + str(e))
+        return ""
+
+
 @app.route("/api/permit/<id>")
 def get_permit_info(id):
 
@@ -59,14 +67,8 @@ def get_permit_info(id):
         data["submitted_by"] = first_row.first_name + " " + first_row.last_name
         data["permit_type"] = first_row.permit_type_name
         data["permit_status"] = first_row.status_type_name
-        data["address"] = (
-            first_row.number
-            + " "
-            + first_row.address
-            + ", "
-            + first_row.city
-            + ", New York "
-            + first_row.zip
+        data["address"] = get_address(
+            first_row.number, first_row.address, first_row.city, first_row.zip
         )
         data["description"] = first_row.description_of_work
         data["application_date"] = first_row.application_date

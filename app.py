@@ -108,7 +108,7 @@ def get_department_status(id, department_id):
 
         data = {}
         data["id"] = result.approval_approvals_id
-        data["data"] = result.groupusers_name
+        data["department"] = result.groupusers_name
         data["status"] = result.approval_status_types_name
         data["last_updated"] = result.date_last_changed
         data["is_active"] = result.is_active

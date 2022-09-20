@@ -26,10 +26,11 @@ interface IDepartmentStatus {
 }
 
 interface IDepartmentInfo {
-    title: string,
+    status: string,
+    department: string,
     reviewer: string,
     last_updated: string,
-    notes: string[]
+    comments: string
 }
 
 function App() {
@@ -198,7 +199,7 @@ function DepartmentInfo() {
 
     return (departmentInfo ?
         <div className='container'>
-            <h2 className='border-bottom pt-5 pb-3'>{departmentInfo.title} </h2>
+            <h2 className='border-bottom pt-5 pb-3'>Plan is {departmentInfo.status} by {departmentInfo.department}</h2>
             <table className='table table-striped'>
                 <tbody>
                     <tr>
@@ -212,11 +213,7 @@ function DepartmentInfo() {
                 </tbody>
             </table>
             <p className="fw-bold">Reason for hold</p>
-            <ul>
-                {departmentInfo.notes.map((info, i) =>
-                    <li key={i}>{info}</li>
-                )}
-            </ul>
+            <p>{departmentInfo.comments}</p>
         </div>
         :
         <div className='container text-center pt-4'>

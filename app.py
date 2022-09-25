@@ -73,7 +73,6 @@ def get_permit_info(id):
         data["description"] = first_row.description_of_work
         data["application_date"] = first_row.application_date
         data["sla_time_days"] = first_row.SLA_Time_Days
-        data["n_approvers"] = first_row.N_Approvers
         data["sla_projected_completion_date"] = first_row.sla_projected_completion_date
         data["assigned_to"] = first_row.assigned_to
         data["permit_type_ips"] = first_row.Permit_Type_IPS

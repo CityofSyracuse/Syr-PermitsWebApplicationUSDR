@@ -121,13 +121,32 @@ def get_department_status(id, department_id):
 
 @app.route("/list")
 def index():
-    permit_number_query = "SELECT application_number FROM permit_with_sla_lookup ORDER BY application_number"
+    permit_number_query_with_count_approvals = (
+        "SELECT application_number, count(*) FROM permit_with_sla_lookup "
+        "LEFT JOIN approval_approvals ON permit_with_sla_lookup.permit_application_id = approval_approvals.record_id "
+        "GROUP BY application_number ORDER BY application_number"
+    )
+    permit_number_query_with_count_approvals_comments = (
+        "SELECT application_number, count(*) FROM permit_with_sla_lookup "
+        "LEFT JOIN approval_approvals ON permit_with_sla_lookup.permit_application_id = approval_approvals.record_id "
+        "WHERE comments <> 'nan' AND comments <> '' GROUP BY application_number ORDER BY application_number"
+    )
 
     with db_connection.cursor() as cursor:
-        cursor.execute(permit_number_query)
-        result = cursor.fetchall()
+        cursor.execute(permit_number_query_with_count_approvals)
+        count_approvals_result = cursor.fetchall()
 
-        return render_template("list.html", nums=[id[0] for id in result])
+        cursor.execute(permit_number_query_with_count_approvals_comments)
+        count_approvals_with_comments_result = cursor.fetchall()
+
+        list_data = {}
+        for res in count_approvals_result:
+            list_data[res[0]] = [res[1]]
+
+        for res_comment in count_approvals_with_comments_result:
+            list_data[res_comment[0]].append(res_comment[1])
+
+        return render_template("list.html", nums=list_data)
 
 
 @app.route("/", defaults={"path": ""})

@@ -6,10 +6,12 @@
 
 <body>
     <h1>Available Permits</h1>
+    <p>permit link [number of department approvals] [number of non-empty comments]</p>
     <ul>
-        {% for num in nums %}
+        {% for key, value in nums.items() %}
         <li>
-            <a href="https://cospermitting.azurewebsites.net/status/{{ num }}">{{ num }}</a>
+            <a href="https://cospermitting.azurewebsites.net/status/{{ key }}">{{ key }}</a> [{{value[0]}}]
+            [{{value[1]}}]
         </li>
         {% endfor %}
     </ul>

@@ -107,7 +107,7 @@ function PermitInfo() {
                 <h2 className='border-bottom pt-4 pb-3'>
                     Your permit is <span style={{ color: getStatusColor() }}>{permitInfo.permit_status}</span>
                 </h2>
-                <p>The estimated approval time for this permit is <strong>{permitInfo.sla_projected_completion_date}</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call <a href="tel:3154488600">315-448-8600</a>.</p>
+                <p>The estimated approval date for this permit is <strong>{permitInfo.sla_projected_completion_date}</strong>. If you haven't gotten an update in a few weeks or have concerns about the timeline, please call <a href="tel:3154488600">315-448-8600</a>.</p>
                 <table className='table'>
                     <tbody>
                         <tr>

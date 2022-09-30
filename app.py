@@ -31,13 +31,6 @@ def create_db_connection():
     return pyodbc.connect(connection_string)
 
 
-try:
-    db_connection = create_db_connection()
-except Exception as e:
-    print("failed to connect to database: " + str(e))
-    db_connection = None
-
-
 def get_address(number, address, city, zip):
     try:
         return number + " " + address + ", " + city + ", New York " + zip
@@ -60,6 +53,7 @@ def get_permit_info(id):
         "WHERE permit_with_sla_lookup.application_number = ?"
     )
 
+    db_connection = create_db_connection()
     with db_connection.cursor() as cursor:
         cursor.execute(permit_info_query, id)
         result = cursor.fetchall()
@@ -110,6 +104,7 @@ def get_department_status(id, department_id):
         "SELECT * FROM approval_approvals WHERE approval_approvals_id = ?"
     )
 
+    db_connection = create_db_connection()
     with db_connection.cursor() as cursor:
         cursor.execute(department_status_query, department_id)
         result = cursor.fetchone()
@@ -140,6 +135,7 @@ def index():
         "WHERE comments <> 'nan' AND comments <> '' GROUP BY application_number ORDER BY application_number"
     )
 
+    db_connection = create_db_connection()
     with db_connection.cursor() as cursor:
         cursor.execute(permit_number_query_with_count_approvals)
         count_approvals_result = cursor.fetchall()

@@ -149,8 +149,9 @@ function PermitInfo() {
             <div className='container text-center pt-4'>
                 {notFound ?
                 <div className='container text-center pt-4'>
-                    <p>We are sorry, but the permit number: <b>{params.permitNumber}</b>, was not able to be located at this time</p>
+                    <p>We are sorry, but status information relating to the permit number: <b>{params.permitNumber}</b> was not able to be located at this time</p>
                     <p>If you believe your permit should be avilable for status checking at this time, please: <a href="https://www.syr.gov/Departments/Central-Permit-Office">Contact city staff</a></p>
+                    <p>Do note, that it can take <b>up to 48 hours</b> after a permit application is submitted to be searchable by this application.</p>
                     <button style={{ backgroundColor: '#3b467a', color: 'white' }} onClick={(e) => navigate(`/`)} className="btn btn-outline-secondary" type="button" id="button-addon2">
                     <img className='px-2' src={returnArrow} height={20} alt="return" />
                     Return to Main Page

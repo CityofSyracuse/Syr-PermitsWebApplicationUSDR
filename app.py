@@ -48,11 +48,6 @@ def convert_date(number_date_str):
 def get_permit_info(id):
 
 
-    simple_permit_query = (
-        "SELECT * FROM permit_with_sla_lookup"
-        "WHERE permit_with_sla_lookup.application_number = ?" 
-    )
-
     permit_info_query = (
         "SELECT * FROM permit_with_sla_lookup LEFT JOIN approval_approvals ON "
         "permit_with_sla_lookup.permit_application_id = approval_approvals.record_id "
@@ -61,8 +56,7 @@ def get_permit_info(id):
 
     db_connection = create_db_connection()
     with db_connection.cursor() as cursor:
-
-        cursor.execute(simple_permit_query, id)
+        cursor.execute(permit_info_query, id)
         result = cursor.fetchall()
         if len(result) == 0:
             abort(404)
@@ -86,31 +80,25 @@ def get_permit_info(id):
         data["assigned_to"] = first_row.assigned_to
         data["permit_type_ips"] = first_row.Permit_Type_IPS
 
+        department_statuses = []
+        for row in result:
+            if row.approval_approvals_id is None:
+                continue
 
-        # ------------------ Sliptting this for now, there are cleaner ways.
-        # Essentially, try to find the department statuses if you are able.
-        cursor.execute(permit_info_query, id)
-        result = cursor.fetchall()
-        if len(result) != 0:
-            department_statuses = []
-            for row in result:
-                if row.approval_approvals_id is None:
-                    continue
+            department = {}
+            department["id"] = row.approval_approvals_id
+            department["department"] = row.groupusers_name
+            department["status"] = row.approval_status_types_name
+            department["last_updated"] = row.date_last_changed
+            department["is_active"] = row.is_active
+            department["comments"] = row.comments
+            # This makes it a little friendlier to display to the end user.
+            if department["comments"] == 'nan':
+                print("Comment Caught.")
+                department["comments"] == "No information available"
+            department_statuses.append(department)
 
-                department = {}
-                department["id"] = row.approval_approvals_id
-                department["department"] = row.groupusers_name
-                department["status"] = row.approval_status_types_name
-                department["last_updated"] = row.date_last_changed
-                department["is_active"] = row.is_active
-                department["comments"] = row.comments
-                # This makes it a little friendlier to display to the end user.
-                if department["comments"] == 'nan':
-                    print("Comment Caught.")
-                    department["comments"] == "No information available"
-                department_statuses.append(department)
-
-            data["department_statuses"] = department_statuses
+        data["department_statuses"] = department_statuses
 
         return data
 

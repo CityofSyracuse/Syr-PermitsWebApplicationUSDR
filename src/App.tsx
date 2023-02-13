@@ -234,8 +234,6 @@ function DepartmentInfo() {
 
 function Header() {
     const logo = "/img/syracuse-logo.png";
-    const personIcon = "/img/person-icon.svg";
-    const returnArrow = "/img/right-arrow.svg"
 
     return (
         <Navbar expand="false" variant="dark" className='p-4 text-white' style={{ backgroundColor: '#1d2754' }}>
@@ -254,7 +252,7 @@ function Header() {
             <Nav className="ml-auto">
                 <a href="syr.gov/permits" className='text-decoration-none text-reset'>
                     <div className="d-flex">
-                        <img className='pe-2' height={20}/>
+                        <img className='pe-2' height={20} alt=""/>
                         Return to syr.gov/permits
                     </div>
                 </a>

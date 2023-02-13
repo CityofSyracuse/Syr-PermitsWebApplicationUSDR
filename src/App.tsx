@@ -56,9 +56,11 @@ function OtherPermitSearch() {
     return (
         <div className='container'>
             <h2 className='border-bottom pt-5 pb-3 mb-5'>Track permit status</h2>
-            <p>Are you looking for the status of your permit application? Use the <b>project number</b> located on your confirmation after submitting the permit application.</p>
+            <h5>Are you looking for the status of your permit application?</h5>
+            <p></p>
+            <p>To find the current status of your application please input the <b>Permit (or project)</b> number that is listed on your application into the search box below.</p>
             <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="Enter 5-digit project number" aria-label="Recipient's username" aria-describedby="button-addon2"
+                <input type="text" className="form-control" placeholder="Enter project (permit) number" aria-label="Recipient's username" aria-describedby="button-addon2"
                     value={value} onChange={(e) => setValue(e.target.value)}
                 />
                 <button style={{ backgroundColor: '#1d2754', color: 'white' }} onClick={(e) => navigate(`/status/${value}`)} className="btn btn-outline-secondary" type="button" id="button-addon2">
@@ -83,6 +85,9 @@ function PermitInfo() {
     console.log(params.permitNumber);
     const [permitInfo, setPermitInfo] = useState<IPermitInfo>();
     const [notFound, setNotFound] = useState(false);
+    const returnArrow = "/img/return-arrow.png";
+
+    const navigate = useNavigate();
     console.log(permitInfo);
 
     useEffect(() => {
@@ -144,8 +149,12 @@ function PermitInfo() {
             <div className='container text-center pt-4'>
                 {notFound ?
                 <div className='container text-center pt-4'>
-                    <p>We are sorry, but the permit number: <b>{params.permitNumber}</b>, was not able to be located.</p>
-                    <p>Please try again later, or, if you believe your permit should be avilable for status checking, please: <a href="https://www.syr.gov/Departments/Central-Permit-Office">Contact city staff</a></p>
+                    <p>We are sorry, but the permit number: <b>{params.permitNumber}</b>, was not able to be located at this time</p>
+                    <p>If you believe your permit should be avilable for status checking at this time, please: <a href="https://www.syr.gov/Departments/Central-Permit-Office">Contact city staff</a></p>
+                    <button style={{ backgroundColor: '#3b467a', color: 'white' }} onClick={(e) => navigate(`/`)} className="btn btn-outline-secondary" type="button" id="button-addon2">
+                    <img className='px-2' src={returnArrow} height={20} alt="return" />
+                    Return to Main Page
+                </button>
                 </div>
                 : 
                 "Please wait while we attempt to locate information about the status of your permit."}
@@ -250,7 +259,7 @@ function Header() {
                 </a>
             </Nav> */}
             <Nav className="ml-auto">
-                <a href="syr.gov/permits" className='text-decoration-none text-reset'>
+                <a href="https://www.syr.gov/Departments/Central-Permit-Office" className='text-decoration-none text-reset'>
                     <div className="d-flex">
                         <img className='pe-2' height={20} alt=""/>
                         Return to syr.gov/permits

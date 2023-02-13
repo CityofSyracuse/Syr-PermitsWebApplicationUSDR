@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, useParams, Link } from "react-router-dom";
 import { Key } from 'react';
 
-const url = "https://cospermitting.azurewebsites.net";
+const url = "https://mypermit.syr.gov";
 
 interface IPermitInfo {
     number: string,
@@ -49,13 +49,14 @@ function App() {
 function OtherPermitSearch() {
     const chatBubble = "/img/bubble.svg";
     const magGlass = "/img/mag-glass.svg";
+    const permitImg = "/img/permit_app_highlighted_Page_1_edits.png";
 
     const [value, setValue] = useState<string>();
     const navigate = useNavigate();
     return (
         <div className='container'>
             <h2 className='border-bottom pt-5 pb-3 mb-5'>Track permit status</h2>
-            <p>To look up your project status, use the <b>5-digit project number</b> provided after submitting the permit application.</p>
+            <p>Are you looking for the status of your permit application? Use the <b>project number</b> located on your confirmation after submitting the permit application.</p>
             <div className="input-group mb-3">
                 <input type="text" className="form-control" placeholder="Enter 5-digit project number" aria-label="Recipient's username" aria-describedby="button-addon2"
                     value={value} onChange={(e) => setValue(e.target.value)}
@@ -65,10 +66,13 @@ function OtherPermitSearch() {
                     Search
                 </button>
             </div>
-            <p>Can't find the project number? Please check the confirmation email or contact the city Staff.</p>
+            <p>Can't find the project number? Please check the confirmation email your recieved from the permits department, or find the number on your permit application as highlighted below.</p>
+            <div>
+                <div><img src={permitImg} height={650} alt="Permit With Number Highlighted" /></div>
+            </div>
             <div className='d-flex justify-content-center pt-3'>
                 <img className='px-2 pt-1' src={chatBubble} height={20} alt="logo" />
-                <p>Need help? Contact city staff</p>
+                <p>Need additional help? <a href="https://www.syr.gov/Departments/Central-Permit-Office">Contact city staff</a></p>
             </div>
         </div>
     );
@@ -138,7 +142,13 @@ function PermitInfo() {
             </div>
             :
             <div className='container text-center pt-4'>
-                {notFound ? "not found" : "loading"}
+                {notFound ?
+                <div className='container text-center pt-4'>
+                    <p>We are sorry, but the permit number: <b>{params.permitNumber}</b>, was not able to be located.</p>
+                    <p>Please try again later, or, if you believe your permit should be avilable for status checking, please: <a href="https://www.syr.gov/Departments/Central-Permit-Office">Contact city staff</a></p>
+                </div>
+                : 
+                "Please wait while we attempt to locate information about the status of your permit."}
             </div>
     );
 }
@@ -225,6 +235,7 @@ function DepartmentInfo() {
 function Header() {
     const logo = "/img/syracuse-logo.png";
     const personIcon = "/img/person-icon.svg";
+    const returnArrow = "/img/right-arrow.svg"
 
     return (
         <Navbar expand="false" variant="dark" className='p-4 text-white' style={{ backgroundColor: '#1d2754' }}>
@@ -232,11 +243,19 @@ function Header() {
                 <img className='pe-2' src={logo} height={30} alt="logo" />
                 Track Permit Status
             </Link>
-            <Nav className="ml-auto">
+            {/* <Nav className="ml-auto">
                 <a href="https://app.oncamino.com/syracuseny/login" className='text-decoration-none text-reset'>
                     <div className="d-flex">
                         <img className='pe-2' src={personIcon} height={20} alt="logo" />
                         Sign In
+                    </div>
+                </a>
+            </Nav> */}
+            <Nav className="ml-auto">
+                <a href="syr.gov/permits" className='text-decoration-none text-reset'>
+                    <div className="d-flex">
+                        <img className='pe-2' height={20}/>
+                        Return to syr.gov/permits
                     </div>
                 </a>
             </Nav>

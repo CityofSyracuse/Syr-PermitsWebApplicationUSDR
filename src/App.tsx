@@ -252,21 +252,13 @@ function Header() {
                 <img className='pe-2' src={logo} height={45} alt="logo" style={{ color: '#1d2754' }}/>
                 Where's My Permit?
             </Link>
-            {/* <Nav className="ml-auto">
-                <a href="https://app.oncamino.com/syracuseny/login" className='text-decoration-none text-reset'>
-                    <div className="d-flex">
-                        <img className='pe-2' src={personIcon} height={20} alt="logo" />
-                        Sign In
-                    </div>
-                </a>
-            </Nav> */}
             <Nav className="ml-auto">
-                <Link to="https://www.syr.gov/Departments/Central-Permit-Office" className='text-decoration-none text-reset'>
+                <a href="https://www.syr.gov/Departments/Central-Permit-Office" className='text-decoration-none text-reset'>
                     <div className="d-flex" style={{ textDecoration: 'none', color: '#F1BE48', fontSize: '1.2em' }}>
                         <img src={yellowReturn} className='pe-2' height={25} alt=""/>
                         Return to syr.gov/permits
                     </div>
-                </Link>
+                </a>
             </Nav>
         </Navbar>
     );

@@ -2,7 +2,7 @@
  Codebase for the USDR / Syracuse Digital Alliance Permits Web Application
 
  To run locally:
- * install requirements in requirements.txt, by running pip install -r requirements.txt
+ * install requirements in requirements.txt
  * run `npm install`
  * set enviroment variable REACT_APP_SYR_DEV_ENV to dev
  * run flask app: `python app.py`
